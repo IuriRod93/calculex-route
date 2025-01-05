@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Rotas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            width: 100%;
+        }
+
+        #logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+        }
+
+        .form-container {
+            width: 30%;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #map {
+            width: 70%;
+            height: 100vh;
+        }
+
+        /* Estilos para o pop-up no canto superior direito */
+        #resultsPopup {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px; /* Alinha o pop-up ao canto superior direito */
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 300px;
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .form-container {
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            #map {
+                width: 100%;
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="img/logo.png" alt="Logo" id="logo">
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Calculadora de Rotas</h1>
+            <form id="routeForm">
+                <label for="destination">Destino</label>
+                <input type="text" id="destination" placeholder="Exemplo: Niterói, RJ" required>
+
+                <label for="fuelPrice">Preço por litro (R$)</label>
+                <input type="number" id="fuelPrice" step="0.01" value="6.50" required>
+
+                <button type="submit">Calcular Rota</button>
+            </form>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <div id="resultsPopup">
+        <h2>Resultado</h2>
+        <p><strong>Distância:</strong> <span id="distanceResult">0 km</span></p>
+        <p><strong>Tempo:</strong> <span id="timeResult">0h 0m</span></p>
+        <p><strong>Custo:</strong> <span id="costResult">R$ 0.00</span></p>
+        <p><strong>Combustível:</strong> <span id="fuelResult">0.00 litros</span></p>
+        <p><strong>Detalhes do Cálculo:</strong> <span id="calculationDetails"></span></p>
+        <button onclick="closePopup()">Fechar</button>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
